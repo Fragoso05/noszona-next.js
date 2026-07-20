@@ -1,11 +1,32 @@
 'use client'
 
-import { useState } from 'react'
+import { useState , useEffect} from 'react'
 
-export default function NoszonaSmart() {
-  const [view, setView] = useState<'home' | 'registo' | 'login' | 'dashboard' | 'recuperar'>('home')
-  const [user, setUser] = useState<any>(null)
 
+
+   export default function NoszonaSmart() {
+  const [view, setView] = useState<'home' | 'login' | 'registo' | 'dashboard' | 'recuperar'>('home');
+  const [user, setUser] = useState<any>(null);
+  const [qrTime, setQrTime] = useState(30);
+
+  // QR Countdown
+  useEffect(() => {
+    if (view !== 'dashboard' || !user) return;
+
+    const interval = setInterval(() => {
+      setQrTime((prev) => {
+        if (prev <= 1) {
+          // Simula renovação do QR
+          return 30;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [view, user]);
+
+     
   return (
     <div>
 
@@ -296,6 +317,272 @@ export default function NoszonaSmart() {
                   <a href="#" onClick={() => setView('registo')}>Criar conta nova</a>
                 </p>
               </form>
+            </div>
+          </div>
+        </section>
+      )}
+      
+            {/* ==================== REGISTO ==================== */}
+      {view === 'registo' && (
+        <section id="registo" className="form-section">
+          <div className="form-panel">
+            <div className="form-panel-top">
+              <h2>Registo de Residente</h2>
+              <p>Preenche os teus dados para criar a conta NOSZONA Smart.</p>
+            </div>
+
+            <div className="form-body">
+              <form 
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  // Simulação de registo
+                  const formData = new FormData(e.currentTarget);
+                  const novoUser = {
+                    nome: formData.get('nome'),
+                    uid: "NZ" + Date.now().toString().slice(-6),
+                    pacote: formData.get('pacote')
+                  };
+                  setUser(novoUser);
+                  setView('dashboard');
+                  alert('Registo simulado com sucesso! (Em produção vai chamar a API)');
+                }}
+              >
+                <div className="form-grid">
+                  <div className="form-group">
+                    <label htmlFor="nome">Nome completo *</label>
+                    <input id="nome" name="nome" required placeholder="Ex: Nome Sobrenome" />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="dataNascimento">Data de nascimento *</label>
+                    <input id="dataNascimento" name="dataNascimento" type="date" required />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="pais">País *</label>
+                    <select id="pais" name="pais" required>
+                      <option value="">Seleciona o país</option>
+                      <option value="Cabo Verde">Cabo Verde</option>
+                      <option value="Portugal">Portugal</option>
+                      {/* podes adicionar mais depois */}
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="telefone">Telefone *</label>
+                    <input id="telefone" name="telefone" type="tel" required placeholder="+238 *** ***" />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="email">Email *</label>
+                    <input id="email" name="email" type="email" required placeholder="email@exemplo.com" />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="username">Username *</label>
+                    <input id="username" name="username" required placeholder="escolhe um username" />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="password">Password *</label>
+                    <input id="password" name="password" type="password" required minLength={6} />
+                  </div>
+
+                  <div className="form-group full">
+                    <label htmlFor="pacote">Pacote *</label>
+                    <select id="pacote" name="pacote" required>
+                      <option value="Pacote 1">Pacote 1 - Entrada</option>
+                      <option value="Pacote 2">Pacote 2 - Completo (Recomendado)</option>
+                      <option value="Pacote 3">Pacote 3 - Premium</option>
+                    </select>
+                  </div>
+                </div>
+
+                <button type="submit" className="form-submit">Criar Conta e Continuar →</button>
+              </form>
+            </div>
+          </div>
+        </section>
+      )}
+
+            {/* ==================== REGISTO ==================== */}
+      {view === 'registo' && (
+        <section id="registo" className="form-section pt-20">
+          <div className="form-panel">
+            <div className="form-panel-top">
+              <h2>Registo de Residente</h2>
+              <p>Preenche os teus dados para criar a conta NOSZONA Smart.</p>
+            </div>
+
+            <div className="form-body">
+              <form id="formRegisto" onSubmit={(e) => {
+                e.preventDefault();
+                // Simulação de registo
+                const formData = new FormData(e.currentTarget);
+                const novoUser = {
+                  nome: formData.get('nome'),
+                  email: formData.get('email'),
+                  telefone: formData.get('telefone'),
+                  documento: formData.get('documento'),
+                  pacote: 'Pacote 2' // pode mudar depois
+                };
+                setUser(novoUser);
+                setView('dashboard');
+                alert('Registo simulado com sucesso! (Em produção vai conectar ao backend)');
+              }}>
+
+                <div className="form-grid">
+                  <div className="form-group">
+                    <label htmlFor="nome">Nome completo *</label>
+                    <input id="nome" name="nome" required minLength={3} placeholder="Ex: Nome Sobrenome" />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="dataNascimento">Data de nascimento *</label>
+                    <input id="dataNascimento" name="dataNascimento" type="date" required />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="nacionalidade">Nacionalidade *</label>
+                    <input id="nacionalidade" name="nacionalidade" required placeholder="Ex: Cabo-verdiana" />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="documento">Nº BI / CNI / Passaporte *</label>
+                    <input id="documento" name="documento" required placeholder="Documento de identificação" />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="telefone">Telefone *</label>
+                    <input id="telefone" name="telefone" type="tel" required placeholder="+238 *** ***" />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="email">Email *</label>
+                    <input id="email" name="email" type="email" required placeholder="email@exemplo.com" />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="morada">Morada *</label>
+                    <input id="morada" name="morada" required placeholder="Morada atual" />
+                  </div>
+                </div>
+
+                <button type="submit" className="form-submit">Criar Conta →</button>
+              </form>
+            </div>
+          </div>
+        </section>
+      )}
+
+            {/* ==================== DASHBOARD ==================== */}
+      {view === 'dashboard' && user && (
+        <section className="dashboard-section pt-24 pb-20 bg-[#061827]">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="flex justify-between items-start mb-10">
+              <div>
+                <h2 className="text-4xl font-bold">Bem-vindo de volta, {user.nome?.split(' ')[0]}!</h2>
+                <p className="text-gray-400">Gerencie sua identidade digital NOSZONA</p>
+              </div>
+              <button 
+                onClick={() => { setUser(null); setView('home'); }}
+                className="btn btn-ghost"
+              >
+                Sair
+              </button>
+            </div>
+
+            <div className="grid lg:grid-cols-12 gap-8">
+              {/* Cartão Principal (como no original) */}
+              <div className="lg:col-span-7">
+                <div className="card-3d bg-gradient-to-br from-zinc-900 to-black border border-white/20 rounded-3xl p-8 relative overflow-hidden">
+                  <div className="card-badge absolute top-6 right-6 bg-yellow-400 text-black text-xs font-bold px-4 py-1 rounded-full">
+                    NOSZONA Smart City
+                  </div>
+
+                  <div className="flex justify-between items-start mb-8">
+                    <div>
+                      <h3 className="text-2xl font-bold" id="dashNome">{user.nome}</h3>
+                      <p className="text-sm text-gray-400">Residente • Cabo Verde</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xs text-gray-400">ID de Residente</div>
+                      <div className="font-mono text-lg">NSZ-{Math.floor(100000 + Math.random() * 900000)}</div>
+                    </div>
+                  </div>
+
+                  {/* QR Code Grande */}
+                  <div className="bg-white rounded-2xl p-6 mb-6 flex justify-center">
+                    <div id="qrCode" className="p-3 bg-white"></div>
+                  </div>
+
+                  <div className="qr-countdown text-center mb-6">
+                    Renova em <strong id="qrCountdown" className="text-yellow-400">30</strong>s
+                    <div className="qr-progress mt-2">
+                      <div className="qr-progress-bar" id="qrProgressBar"></div>
+                    </div>
+                  </div>
+
+                  <p className="text-center text-xs text-gray-400">
+                    Apresente este QR em eventos, cantina ou serviços da Smart City
+                  </p>
+                </div>
+              </div>
+
+              {/* Info Lateral */}
+              <div className="lg:col-span-5 space-y-6">
+                <div className="bg-white/5 border border-white/10 rounded-3xl p-8">
+                  <h4 className="text-yellow-400 mb-4">Saldo Atual</h4>
+                  <div className="text-5xl font-bold mb-1">12.450 CVE</div>
+                  <p className="text-green-400">+ 45 swipes restantes</p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <button 
+                    onClick={() => alert('Recarga via Vinti4 em desenvolvimento')}
+                    className="h-28 bg-white text-black rounded-3xl font-semibold hover:scale-105 transition-transform"
+                  >
+                    Recarregar
+                  </button>
+                  <button 
+                    onClick={() => alert('Solicitação de cartão físico em breve')}
+                    className="h-28 bg-white/10 border border-white/30 rounded-3xl font-semibold hover:bg-white/20 transition-all"
+                  >
+                    Pedir Cartão Físico
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+            {/* ==================== RECUPERAR SENHA ==================== */}
+      {view === 'recuperar' && (
+        <section className="form-section pt-20">
+          <div className="form-panel form-panel-narrow">
+            <div className="form-panel-top">
+              <h2>Recuperar Acesso</h2>
+              <p>Digite o seu email para receber um link de recuperação.</p>
+            </div>
+
+            <div className="form-body">
+              <form onSubmit={(e) => {
+                e.preventDefault();
+                alert("Link de recuperação enviado (simulação). Verifique o seu email.");
+                setView('login');
+              }}>
+                <div className="form-group full">
+                  <label htmlFor="recuperarEmail">Email</label>
+                  <input id="recuperarEmail" type="email" required placeholder="email@exemplo.com" />
+                </div>
+
+                <button type="submit" className="form-submit">Enviar Link →</button>
+              </form>
+
+              <p className="form-switch mt-6 text-center">
+                <a href="#" onClick={() => setView('login')}>Voltar ao Login</a>
+              </p>
             </div>
           </div>
         </section>
