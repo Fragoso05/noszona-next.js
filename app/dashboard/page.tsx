@@ -27,10 +27,10 @@ export default function DashboardPage() {
     const residenteSalvo =
       obterResidenteGuardado();
 
-    if (!residenteSalvo) {
-      router.replace("/login");
-      return;
-    }
+    //if (!residenteSalvo) {
+     // router.replace("/login");
+     // return;
+   // }
 
     setResidente(residenteSalvo);
     setCarregando(false);
