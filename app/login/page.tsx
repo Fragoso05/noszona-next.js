@@ -100,10 +100,10 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="btn btn-primary btn-full"
+              className="btn btn-primary btn-login-centralizado"
               disabled={carregando}
-            >
-              {carregando ? "A entrar..." : "Entrar"}
+             >
+             {carregando ? "A entrar..." : "Entrar"}
             </button>
           </form>
 

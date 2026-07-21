@@ -1,5 +1,7 @@
 'use client'
 
+import { useRouter } from "next/navigation";
+
 import { useState , useEffect} from 'react'
 
 
@@ -8,6 +10,7 @@ import { useState , useEffect} from 'react'
   const [view, setView] = useState<'home' | 'login' | 'registo' | 'dashboard' | 'recuperar'>('home');
   const [user, setUser] = useState<any>(null);
   const [qrTime, setQrTime] = useState(30);
+  const router = useRouter();
 
   // QR Countdown
   useEffect(() => {
@@ -35,22 +38,19 @@ import { useState , useEffect} from 'react'
         <a href="#top" className="logo">
           <img src="/img/noszona-logo.jpg" alt="NOSZONA Smart" className="logo-img" />
         </a>
-        <ul className="nav-links">
-          <li><a href="#como-funciona">Como funciona</a></li>
-          <li><a href="#pacotes">Pacotes</a></li>
-        </ul>
+      
 
         <div className="nav-ctas">
           {!user ? (
             <>
-              <button className="btn btn-ghost" onClick={() => setView('login')}>Login</button>
-              <button className="btn btn-primary" onClick={() => setView('registo')}>Criar conta</button>
+              <button className="btn btn-ghost" onClick={() => router.push("/login")}>Login</button>
+              <button className="btn btn-primary" onClick={() => router.push("/registo")}>Criar conta</button>
             </>
           ) : (
             <>
               <span className="user-greeting">Olá, {user.nome?.split(' ')[0]}</span>
-              <button className="btn btn-ghost" onClick={() => setView('dashboard')}>Minha conta</button>
-              <button className="btn btn-ghost" onClick={() => { setUser(null); setView('home') }}>Sair</button>
+              <button className="btn btn-ghost" onClick={() => router.push("/dashboard")}>Minha conta</button>
+              <button className="btn btn-ghost" onClick={() => { setUser(null); router.push("/"); }}>Sair</button>
             </>
           )}
         </div>
