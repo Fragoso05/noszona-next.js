@@ -121,7 +121,7 @@ export async function fazerLogin(
   password: string,
 ): Promise<LoginResponse> {
   return apiRequest<LoginResponse>(
-    "/api/auth/login",
+    "/api/residentes/login",
     {
       method: "POST",
       body: JSON.stringify({

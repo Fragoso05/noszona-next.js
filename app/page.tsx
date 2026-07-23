@@ -322,88 +322,7 @@ import { useState , useEffect} from 'react'
         </section>
       )}
       
-            {/* ==================== REGISTO ==================== */}
-      {view === 'registo' && (
-        <section id="registo" className="form-section">
-          <div className="form-panel">
-            <div className="form-panel-top">
-              <h2>Registo de Residente</h2>
-              <p>Preenche os teus dados para criar a conta NOSZONA Smart.</p>
-            </div>
-
-            <div className="form-body">
-              <form 
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  // Simulação de registo
-                  const formData = new FormData(e.currentTarget);
-                  const novoUser = {
-                    nome: formData.get('nome'),
-                    uid: "NZ" + Date.now().toString().slice(-6),
-                    pacote: formData.get('pacote')
-                  };
-                  setUser(novoUser);
-                  setView('dashboard');
-                  alert('Registo simulado com sucesso! (Em produção vai chamar a API)');
-                }}
-              >
-                <div className="form-grid">
-                  <div className="form-group">
-                    <label htmlFor="nome">Nome completo *</label>
-                    <input id="nome" name="nome" required placeholder="Ex: Nome Sobrenome" />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="dataNascimento">Data de nascimento *</label>
-                    <input id="dataNascimento" name="dataNascimento" type="date" required />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="pais">País *</label>
-                    <select id="pais" name="pais" required>
-                      <option value="">Seleciona o país</option>
-                      <option value="Cabo Verde">Cabo Verde</option>
-                      <option value="Portugal">Portugal</option>
-                      {/* podes adicionar mais depois */}
-                    </select>
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="telefone">Telefone *</label>
-                    <input id="telefone" name="telefone" type="tel" required placeholder="+238 *** ***" />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="email">Email *</label>
-                    <input id="email" name="email" type="email" required placeholder="email@exemplo.com" />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="username">Username *</label>
-                    <input id="username" name="username" required placeholder="escolhe um username" />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="password">Password *</label>
-                    <input id="password" name="password" type="password" required minLength={6} />
-                  </div>
-
-                  <div className="form-group full">
-                    <label htmlFor="pacote">Pacote *</label>
-                    <select id="pacote" name="pacote" required>
-                      <option value="Pacote 1">Pacote 1 - Entrada</option>
-                      <option value="Pacote 2">Pacote 2 - Completo (Recomendado)</option>
-                      <option value="Pacote 3">Pacote 3 - Premium</option>
-                    </select>
-                  </div>
-                </div>
-
-                <button type="submit" className="form-submit">Criar Conta e Continuar →</button>
-              </form>
-            </div>
-          </div>
-        </section>
-      )}
+           
 
             {/* ==================== REGISTO ==================== */}
       {view === 'registo' && (
@@ -424,7 +343,7 @@ import { useState , useEffect} from 'react'
                   email: formData.get('email'),
                   telefone: formData.get('telefone'),
                   documento: formData.get('documento'),
-                  pacote: 'Pacote 2' // pode mudar depois
+                  pacote: formData.get('pacote')
                 };
                 setUser(novoUser);
                 setView('dashboard');
@@ -591,3 +510,4 @@ import { useState , useEffect} from 'react'
     </div>
   )
 }
+

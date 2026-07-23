@@ -206,8 +206,8 @@ export default function RegistoPage() {
 
           <form
             className="registo-form"
-            onSubmit={submeterRegisto}
-          >
+            onSubmit={submeterRegisto}>
+
             <div className="registo-grid">
               <label className="campo-completo">
                 Nome completo *
