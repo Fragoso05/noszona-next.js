@@ -57,9 +57,9 @@ export interface RegistoData {
   codigoPostal: string;
 }
 
-export interface LoginResponse {
+export interface RegistoResponse {
   sucesso: boolean;
   mensagem?: string;
-  token?: string;
+  residenteId?: string;
   residente?: Residente;
 }
