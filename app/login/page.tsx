@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import { fazerLogin } from "@/lib/api";
 import { guardarSessao } from "@/lib/auth";
+import { criarDataUrlImagem } from "@/lib/imagens";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -36,7 +37,24 @@ export default function LoginPage() {
         );
       }
 
-      guardarSessao(resposta.token, resposta.residente);
+      const residentePreparado = {
+  ...resposta.residente,
+
+  fotoPerfilBase64: criarDataUrlImagem(
+    resposta.residente.fotoPerfilBase64,
+    resposta.residente.fotoPerfilTipo,
+  ),
+
+  fotoCartaoBase64: criarDataUrlImagem(
+    resposta.residente.fotoCartaoBase64,
+    resposta.residente.fotoCartaoTipo,
+  ),
+};
+
+guardarSessao(
+  resposta.token,
+  residentePreparado,
+);
 
       router.push("/dashboard");
       router.refresh();
